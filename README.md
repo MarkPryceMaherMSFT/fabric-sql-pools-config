@@ -69,6 +69,10 @@ example queries work for both managed tables and explicit `abfss` paths.
 
 ## Notes
 
+* `build_update_payload()` always sends a `classifier` block
+  (`{"type": "Application Name", "value": []}`) even when `POOL_CLASSIFIER` is `None`.
+  **This is deliberate** — leave it alone. Set `POOL_CLASSIFIER` to override it, e.g.
+  `{"type": "Application Name", "value": ["ETL", "Load"]}`.
 * Auth uses the notebook identity via `notebookutils.credentials.getToken("pbi")` — no secrets,
   no app registration.
 * `429` and `5xx` responses are retried with backoff (honouring `Retry-After`); `401` triggers one
